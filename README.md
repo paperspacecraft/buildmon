@@ -38,18 +38,18 @@ Add to the "plugins" section of one or more relevant POMs as in the following sn
 </plugin>
 ```
 
-#### B. Command line (does not affect the project's codebase)
+#### B. Command line (does not affect a project's codebase)
 
 1) Locate your user-level or system-level Maven settings (*settings.xml*).
    
-2) Add or modify the *pluginGroups* section to be able to use the brief plugin name in the command line:
+2) Add or modify the *pluginGroups* section in *settings.xml* to be able to use the brief plugin name in the command line:
 ```xml
 <pluginGroups>
     <pluginGroup>com.paperspacecraft.aem</pluginGroup>
 </pluginGroups>
 ```
 
-3) Create a "common" Maven profile and put plugin configuration keys in it:
+3) Create a "common" Maven profile *settings.xml* and put plugin configuration in it:
 ```xml
 <profile>
     <!-- Put any ID you will use further -->
@@ -71,7 +71,7 @@ Or, to verify that the proper AEM instance is on, run:
 mvn buildmon:verify clean install -Psome-profile -Psome-other-profile -Pbuildmon-local
 ```
 
-NB: if you more than one set of settings for different projects you build, just create another "common" profile.
+NB: if you need another set of settings for a different project, just create another "common" profile.
 
 ### Configuration
 
