@@ -68,6 +68,6 @@ public class BuildHolderTest extends BuildMonitorTestBase {
         child1.verifySettings();
         child1.execute(httpTester);
 
-        Assert.assertTrue(logger.getMessages().contains("Success."));
+        Assert.assertTrue(logger.getMessages().contains("Succeeded"));
     }
 }

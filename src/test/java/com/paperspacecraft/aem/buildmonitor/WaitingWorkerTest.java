@@ -31,7 +31,7 @@ public class WaitingWorkerTest {
         for (int i = 3; i >= 1; i--) {
             Assert.assertTrue(logger.getMessages().contains("max " + i + " sec. remaining"));
         }
-        Assert.assertTrue(logger.getMessages().contains("Success."));
+        Assert.assertTrue(logger.getMessages().contains("Succeeded after 2 sec."));
     }
 
     @Test
