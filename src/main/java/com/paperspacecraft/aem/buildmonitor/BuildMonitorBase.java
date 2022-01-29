@@ -21,7 +21,8 @@ abstract class BuildMonitorBase extends AbstractMojo {
     private static final String DEFAULT_PASSWORD = DEFAULT_LOGIN;
 
     private static final String DEFAULT_POLLING_INTERVAL = "3";
-    private static final String DEFAULT_MAX_WAITING = "120";
+    private static final String DEFAULT_POLL_AFTER = "0";
+    private static final String DEFAULT_MAX_WAITING = "150";
 
     @Parameter(defaultValue = "${session}", required = true, readonly = true)
     @Setter(value = AccessLevel.PACKAGE)
@@ -41,6 +42,10 @@ abstract class BuildMonitorBase extends AbstractMojo {
     @Parameter(defaultValue = "${buildmon.pollingInterval}", readonly = true)
     @Getter(AccessLevel.PACKAGE)
     private String pollingInterval;
+
+    @Parameter(defaultValue = "${buildmon.pollAfter}", readonly = true)
+    @Getter(AccessLevel.PACKAGE)
+    private String pollAfter;
 
     @Parameter(defaultValue = "${buildmon.maxWaiting}", readonly = true)
     @Getter(AccessLevel.PACKAGE)
@@ -90,6 +95,13 @@ abstract class BuildMonitorBase extends AbstractMojo {
             pollingInterval = DEFAULT_POLLING_INTERVAL;
         } else {
             getLog().info(String.format("Using polling interval %s sec.", pollingInterval));
+        }
+
+        if (!StringUtils.isNumeric(pollAfter)) {
+            getLog().info(String.format("Using default polling delay %s sec.", DEFAULT_POLL_AFTER));
+            pollAfter = DEFAULT_POLL_AFTER;
+        } else {
+            getLog().info(String.format("Using polling delay %s sec.", pollAfter));
         }
 
         if (!StringUtils.isNumeric(maxWaiting) || Integer.parseInt(maxWaiting) <= Integer.parseInt(pollingInterval)) {

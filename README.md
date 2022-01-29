@@ -107,6 +107,13 @@ The default value is 3 sec.
 When in the *settings.xml* file, specify *buildmon.maxWaiting*.
 The default value is 120 sec.
 
+**pollAfter** - used for the "wait" goal. Time (in seconds) before sending the first request to the endpoint. Might be
+useful if the endpoint / "must contain" constraints are set up in such a manner that the endpoint might be available
+immediately after the build finishes but then becomes unavailable for a while (due to bundles restarting, etc.).
+
+When in the *settings.xml* file, specify *buildmon.pollAfter*.
+The default value is 0 (the first request is sent immediately).
+
 **mustContainHtml** - used to specify that the endpoint must not just be reachable but respond with a valid HTML. Useful to rule out that the endpoint gives back a "Startup in progress" or some "404 not found" page.
 The value is a CSS-style selector (to be precise, the format recognizable by the *Jsoup* library).
 Some good candidate is:
@@ -120,7 +127,7 @@ If you want to make sure that not only a specific HTML entity is present in the 
 
 When in the *settings.xml* file, specify *buildmon.mustContainHtml*.
 
-**mustContainText** - an alternative that is much like the *mustContainHtml* but just searches for a plain text. Can be used, e.g., when the endpoint is not an HTML page but a JSON. 
+**mustContainText** - an alternative that is much like the *mustContainHtml* but just searches for plain text. Can be used, e.g., when the endpoint is not an HTML page but a JSON. 
 
 When in the *settings.xml* file, specify *buildmon.mustContainText*.
 

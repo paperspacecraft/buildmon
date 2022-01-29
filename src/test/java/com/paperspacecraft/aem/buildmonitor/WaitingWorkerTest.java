@@ -18,12 +18,18 @@ public class WaitingWorkerTest {
 
     @Test
     public void shouldWaitForRightResponse() {
+        shouldWaitForRightResponse(0);
+        shouldWaitForRightResponse(1000);
+    }
+
+    private void shouldWaitForRightResponse(int delay) {
         DummyLog logger = new DummyLog();
         WaitingWorker waitingWorker = WaitingWorker
                 .builder()
                 .tester(getHttpTester(new IrregularContentProvider()))
-                .maxWaiting(3000)
+                .pollAfter(delay)
                 .pollingInterval(1000)
+                .maxWaiting(3000)
                 .logger(logger)
                 .build();
         Assert.assertTrue(waitingWorker.doWaiting());
@@ -32,16 +38,26 @@ public class WaitingWorkerTest {
             Assert.assertTrue(logger.getMessages().contains("max " + i + " sec. remaining"));
         }
         Assert.assertTrue(logger.getMessages().contains("Succeeded after 2 sec."));
+
+        if (delay > 0) {
+            Assert.assertTrue(logger.getMessages().contains("Checks will proceed after 1 sec."));
+        }
     }
 
     @Test
     public void shouldAbandonIfNoRightResponse() {
+        shouldAbandonIfNoRightResponse(0);
+        shouldAbandonIfNoRightResponse(1000);
+    }
+
+    private void shouldAbandonIfNoRightResponse(int delay) {
         DummyLog logger = new DummyLog();
         WaitingWorker waitingWorker = WaitingWorker
                 .builder()
                 .tester(getHttpTester(new FailingContentProvider()))
-                .maxWaiting(3500)
+                .pollAfter(delay)
                 .pollingInterval(1000)
+                .maxWaiting(3500)
                 .logger(logger)
                 .build();
         Assert.assertFalse(waitingWorker.doWaiting());
@@ -49,7 +65,12 @@ public class WaitingWorkerTest {
             Assert.assertTrue(logger.getMessages().contains("max " + i + " sec. remaining"));
         }
         Assert.assertTrue(logger.getMessages().contains("After 3 sec., we haven't received the expected response."));
+
+        if (delay > 0) {
+            Assert.assertTrue(logger.getMessages().contains("Checks will proceed after 1 sec."));
+        }
     }
+
 
     private static HttpTester getHttpTester(ContentProvider contentProvider) {
         return HttpTester

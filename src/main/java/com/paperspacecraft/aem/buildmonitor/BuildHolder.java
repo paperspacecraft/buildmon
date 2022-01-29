@@ -32,6 +32,7 @@ public class BuildHolder extends BuildMonitorBase {
                 .builder()
                 .tester(httpTester)
                 .maxWaiting(toMilliseconds(getMaxWaiting()))
+                .pollAfter(toMilliseconds(getPollAfter()))
                 .pollingInterval(toMilliseconds(getPollingInterval()))
                 .logger(getLog())
                 .build();
