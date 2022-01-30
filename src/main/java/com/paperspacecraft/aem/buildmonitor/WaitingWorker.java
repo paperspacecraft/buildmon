@@ -77,6 +77,7 @@ class WaitingWorker {
         public void run() {
             if (runCount++ == 0) {
                 logger.info(String.format(WAITING_MESSAGE, tester.getEndpoint(), maxWaiting / 1000));
+                return;
             }
             currentMoment = System.currentTimeMillis();
             long timePassed = currentMoment - startingMoment;
